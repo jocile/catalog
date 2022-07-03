@@ -118,7 +118,27 @@ $ ./mvnw spring-boot:run
 
 ## :books: References
 
-:books: [See the documentation on wiki](https://github.com/jocile/catalog/wiki)
+- :books: [See the documentation on wiki](https://github.com/jocile/catalog/wiki)
+- :file_folder: [App diagrams](docs/diagrams/);
+- :link: [Bootcamp Documentation SDS 5 pt-BR](https://github.com/devsuperior/sds5);
+- :link: [Official Apache Maven documentation](https://maven.apache.org/guides/index.html);
+- :link: [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.12/maven-plugin/reference/htmlsingle/);
+- :link: [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.4.12/maven-plugin/reference/html/#build-image);
+- :link: [Spring Web](https://docs.spring.io/spring-boot/docs/2.5.6/reference/htmlsingle/#features.developing-web-applications);
+  - :link: [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/);
+  - :link: [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/);
+- :link: [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.5.6/reference/htmlsingle/#features.sql.jpa-and-spring-data);
+  - :link: [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/);
+- :link: [Spring Security](https://docs.spring.io/spring-boot/docs/2.7.0/reference/htmlsingle/#web.security);
+  - :link: [Securing a Web Application](https://spring.io/guides/gs/securing-web/);
+  - :link: [Enabling Cross Origin Requests for a RESTful Web Service](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)
+  - :link: [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/);
+  - :link: [Authenticating a User with LDAP](https://spring.io/guides/gs/authenticating-ldap/);
+- :link: [Tutorial: Intro to React](https://reactjs.org/tutorial/tutorial.html);
+  - :link: [React Bootstrap](https://react-bootstrap.github.io/);
+  - :link: [Upgrading React Router](https://reactrouter.com/docs/en/v6/upgrading/reach);
+  - :link: [Styled components in React](https://styled-components.com/docs/basics);
+- :link: [TypeScript Documentation](https://www.typescriptlang.org/docs/);
 
 ## :memo: License
 
