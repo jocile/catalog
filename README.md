@@ -84,21 +84,44 @@ The following tools were used in this project:
 
 ## :white_check_mark: Requirements
 
-Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [yarn](https://yarnpkg.com/) and [Java 17](https://docs.oracle.com/en/java/javase/17/) installed.
+<!-- Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [yarn](https://yarnpkg.com/)-->
+
+Before starting :checkered_flag:, you need to have [Java JDK11](https://www.oracle.com/java/technologies/downloads/#java11), [Git](https://git-scm.com) and [Maven](https://maven.apache.org/install.html) installed.
 
 ## :checkered_flag: Starting
 
+> Clone this project
+
 ```bash
-# Clone this project
 $ git clone https://github.com/jocile/catalog
+```
 
-# Access
+> Access
+
+```bash
+$ cd catalog/backend
+```
+
+> Run the project backend
+
+```bash
+$ ./mvnw spring-boot:run
+```
+
+> The backend API will initialize in the browser\
+> <http://localhost:8080/swagger-ui/index.html>
+
+<!--
+> Access
+```bash
 $ cd catalog/frontend
-
-# Install dependencies
+```
+> Install dependencies
+```bash
 $ yarn
-
-# Run the project frontend
+```
+> Run the project frontend
+```bash
 $ yarn start
 ```
 
@@ -115,6 +138,7 @@ $ ./mvnw spring-boot:run
 
 > The local backend server will initialize in the browser: <http://localhost:8080/swagger-ui/index.html>\
 > and in-memory database H2 will be initialized in <http://localhost:8080/h2-console>
+-->
 
 ## :books: References
 
