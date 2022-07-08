@@ -86,30 +86,32 @@ The following tools were used in this project:
 
 <!-- Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [yarn](https://yarnpkg.com/)-->
 
-Before starting :checkered_flag:, you need to have [Java JDK11](https://www.oracle.com/java/technologies/downloads/#java11), [Git](https://git-scm.com) and [Maven](https://maven.apache.org/install.html) installed.
+Before starting :checkered_flag:, you need to have [Java JDK 17](https://www.oracle.com/java/technologies/downloads/#java17), [Git](https://git-scm.com) and [Maven](https://maven.apache.org/install.html) installed.
 
 ## :checkered_flag: Starting
 
 > Clone this project
 
 ```bash
-$ git clone https://github.com/jocile/catalog
+git clone https://github.com/jocile/catalog
 ```
 
 > Access
 
 ```bash
-$ cd catalog/backend
+cd catalog/backend
 ```
 
 > Run the project backend
 
 ```bash
-$ ./mvnw spring-boot:run
+./mvnw spring-boot:run
 ```
 
 > The backend API will initialize in the browser\
 > <http://localhost:8080/swagger-ui/index.html>
+
+> 🚧 The frontkend is 🚀 Under construction... 🚧
 
 <!--
 > Access
