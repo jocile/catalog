@@ -1,6 +1,6 @@
 package com.devsuperior.catalog.resources;
 
-import com.devsuperior.catalog.entities.Category;
+import com.devsuperior.catalog.dto.CategoryDTO;
 import com.devsuperior.catalog.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
@@ -22,8 +22,8 @@ public class CategoryResource {
     description = "List of all categories",
     tags = { "Categories" }
   )
-  public ResponseEntity<List<Category>> findAll() {
-    List<Category> list = service.findAll();
+  public ResponseEntity<List<CategoryDTO>> findAll() {
+    List<CategoryDTO> list = service.findAll();
     return ResponseEntity.ok().body(list);
   }
 }
