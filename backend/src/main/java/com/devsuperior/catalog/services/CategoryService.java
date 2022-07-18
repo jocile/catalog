@@ -3,6 +3,7 @@ package com.devsuperior.catalog.services;
 import com.devsuperior.catalog.dto.CategoryDTO;
 import com.devsuperior.catalog.entities.Category;
 import com.devsuperior.catalog.repositories.CategoryRepository;
+import com.devsuperior.catalog.services.Exceptions.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +29,9 @@ public class CategoryService {
   @Transactional(readOnly = true)
   public CategoryDTO findById(Long id) {
     Optional<Category> obj = repository.findById(id);
-    Category entity = obj.get();
+    Category entity = obj.orElseThrow(
+      () -> new EntityNotFoundException("Category not found")
+    );
     return new CategoryDTO(entity);
   }
 }

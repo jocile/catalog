@@ -38,7 +38,7 @@ public class CategoryResource {
     operationId = "findById",
     summary = "search category by identified number",
     description = "Receives the identifier and returns the corresponding category",
-    tags = { "categories" },
+    tags = { "Categories" },
     responses = {
       @ApiResponse(
         description = "Success! The category was found!",
@@ -51,7 +51,12 @@ public class CategoryResource {
       @ApiResponse(
         description = "Error! Identifier number not found!",
         responseCode = "404",
-        content = @Content
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(
+            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":404,\"error\":\"Resourcenotfound\",\"message\":\"Category not found\",\"path\":\"/categories/{id}\"}"
+          )
+        )
       ),
     }
   )
