@@ -4,6 +4,7 @@ import com.devsuperior.catalog.dto.CategoryDTO;
 import com.devsuperior.catalog.entities.Category;
 import com.devsuperior.catalog.repositories.CategoryRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,12 @@ public class CategoryService {
       .stream()
       .map(obj -> new CategoryDTO(obj))
       .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public CategoryDTO findById(Long id) {
+    Optional<Category> obj = repository.findById(id);
+    Category entity = obj.get();
+    return new CategoryDTO(entity);
   }
 }
