@@ -8,13 +8,17 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/categories")
@@ -68,5 +72,47 @@ public class CategoryResource {
   ) {
     CategoryDTO dto = service.findById(id);
     return ResponseEntity.ok().body(dto);
+  }
+
+  @PostMapping
+  @Operation(
+    summary = "Insert a new category name",
+    description = "Insert a new category name and return confirmation response",
+    tags = { "Categories" },
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      content = @Content(
+        mediaType = "application/json",
+        schema = @Schema(example = "{\"name\":\"Category name\"}")
+      )
+    ),
+    responses = {
+      @ApiResponse(
+        description = "Success insert new category name",
+        responseCode = "201",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = CategoryDTO.class)
+        )
+      ),
+      @ApiResponse(
+        description = "Category name error",
+        responseCode = "400",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(
+            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/categories\"}"
+          )
+        )
+      ),
+    }
+  )
+  public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
+    dto = service.insert(dto);
+    URI uri = ServletUriComponentsBuilder
+      .fromCurrentRequest()
+      .path("/{id}")
+      .buildAndExpand(dto.getId())
+      .toUri();
+    return ResponseEntity.created(uri).body(dto);
   }
 }
