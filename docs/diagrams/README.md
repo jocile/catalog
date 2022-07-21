@@ -13,30 +13,100 @@ classDiagram
         - name : String
     }
     class CategoryRepository{
-      <<repository-interface>>
+        <<repository-interface>>
     }
     class CategoryResource{
-      <<controller>>
-      findAll() List~Category~
+        <<controller>>
+        - service : CategoryService
+        findAll() ResponseEntityPage~CategoryDTO~
+        findById(id) ResponseEntity~CategoryDTO~
+        insert(dto) ResponseEntity~CategoryDTO~
+        update(dto) ResponseEntity~CategoryDTO~
+        delete(id) ResponseEntity~void~
     }
     class CategoryService{
-      <<service>>
-      - repository : CategoryRepository
-      findAll() List~Category~
+        <<service>>
+        - repository : CategoryRepository
+        findAll() List~CategoryDTO~
+        findAllPaged(pageable) Page~CategoryDTO~
+        findById(id) ResponseEntity~CategoryDTO~
+        insert(dto) ResponseEntity~CategoryDTO~
+        update(dto) ResponseEntity~CategoryDTO~
+        delete(id) ResponseEntity~void~
     }
+    class CategoryDTO{
+        <<dto>>
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        - id : Long
+        - name : String
+    }
+    class EntityNotFoundException{
+      <<RuntimeException>>
+    }
+    class StandardError{
+      - timestamp : Instant
+      - status : Integer
+      - error : String
+      - message : String
+      - path : String
+      @NoArgsConstructor
+      @Getter
+      @Setter
+    }
+    class ResourceExceptionHandler {
+      handleEntityNotFound ResponseEntity~StandardError~
+    }
+    CategoryDTO *-- Category
     CategoryService *-- Category
-    CategoryService *-- CategoryRepository
-    CategoryResource *-- Category
+    CategoryService *-- CategoryDTO
+    CategoryService *-- CategoryRepository    
+    CategoryResource *-- CategoryDTO
+    CategoryResource *-- CategoryService
+    CategoryResource *-- EntityNotFoundException
+    CategoryResource *-- StandardError
+    
   ```
 ## ER diagram
 
 ```mermaid
 erDiagram
-    tb_category {
-        BIGINT id PK
-        CHARACTER name
+    USER ||--|{ ROLE : contains
+    PRODUCT O|--|{ CATEGORY : contains
+    USER {
+      Long id PK
+      String firstName
+      String lastName
+      String email
+      String password
+    }
+    ROLE {
+      String autority
+      Long id PK
+    }
+    PRODUCT {
+      Long id PK
+      String name
+      String description
+      Double price
+      String imgUrl
+    }
+    CATEGORY {
+        Long id PK
+        String name
     }
 ```
+
+| Value (left) |	Value (right) |	Meaning |
+| :------: | :------: | --- |
+| \|o | o\| | 	Zero or one |
+| \|\|| \|\||	Exactly one |
+| }o	| o{	|  Zero or more (no upper limit) |
+| }\|	| \|{ |	One or more (no upper limit) |
+
+![Entities diagram](EntitiesER.drawio.svg)
 
 ## References
 
