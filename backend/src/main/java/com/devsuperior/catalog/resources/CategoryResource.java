@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -114,5 +115,43 @@ public class CategoryResource {
       .buildAndExpand(dto.getId())
       .toUri();
     return ResponseEntity.created(uri).body(dto);
+  }
+
+  @PutMapping(value = "/{id}")
+  @Operation(
+    summary = "Update the category",
+    description = "Update the category and return the updated",
+    tags = { "Categories" },
+    responses = {
+      @ApiResponse(
+        description = "Success updade category",
+        responseCode = "200",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = Category.class)
+        )
+      ),
+      @ApiResponse(
+        description = "Category identifier not found",
+        responseCode = "404",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(
+            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Id not found {id}\",\"path\":\"/categories/{id}\"}"
+          )
+        )
+      ),
+    }
+  )
+  public ResponseEntity<CategoryDTO> update(
+    @Parameter(
+      name = "id",
+      description = "Category identifier number",
+      required = true
+    ) @PathVariable Long id,
+    @RequestBody CategoryDTO dto
+  ) {
+    dto = service.update(id, dto);
+    return ResponseEntity.ok().body(dto);
   }
 }
