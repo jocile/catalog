@@ -11,6 +11,10 @@ classDiagram
         @NoArgsConstructor
         - id : Long
         - name : String
+        - createdAt : Instant
+        - updatedAt : Instant
+        prePersist() void
+        preUpdate() void
     }
     class CategoryRepository{
         <<repository-interface>>
@@ -47,17 +51,14 @@ classDiagram
       <<RuntimeException>>
     }
     class StandardError{
+      @NoArgsConstructor
+      @Getter
+      @Setter
       - timestamp : Instant
       - status : Integer
       - error : String
       - message : String
       - path : String
-      @NoArgsConstructor
-      @Getter
-      @Setter
-    }
-    class ResourceExceptionHandler {
-      handleEntityNotFound ResponseEntity~StandardError~
     }
     CategoryDTO *-- Category
     CategoryService *-- Category
@@ -67,7 +68,6 @@ classDiagram
     CategoryResource *-- CategoryService
     CategoryResource *-- EntityNotFoundException
     CategoryResource *-- StandardError
-    
   ```
 ## ER diagram
 
