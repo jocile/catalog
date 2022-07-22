@@ -1,16 +1,18 @@
 package com.devsuperior.catalog.resources;
 
 import com.devsuperior.catalog.dto.CategoryDTO;
-import com.devsuperior.catalog.entities.Category;
 import com.devsuperior.catalog.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.net.URI;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,11 +34,58 @@ public class CategoryResource {
   @GetMapping
   @Operation(
     summary = "Categories list",
-    description = "List of all categories",
-    tags = { "Categories" }
+    description = "Paginated list of categories",
+    tags = { "Categories" },
+    responses = {
+      @ApiResponse(
+        description = "Success!",
+        responseCode = "200",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = CategoryDTO.class)
+        )
+      ),
+      @ApiResponse(
+        description = "Error! Wrong formatted sorting criteriav!",
+        responseCode = "500",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(
+            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/categories\"}"
+          )
+        )
+      ),
+    }
   )
-  public ResponseEntity<List<CategoryDTO>> findAll() {
-    List<CategoryDTO> list = service.findAll();
+  public ResponseEntity<Page<CategoryDTO>> findAll(
+    @Parameter(
+      in = ParameterIn.QUERY,
+      description = "Zero-based page index (0..N)"
+    ) @RequestParam(value = "page", defaultValue = "0") Integer page,
+    @Parameter(
+      in = ParameterIn.QUERY,
+      description = "The size of the page to be returned"
+    ) @RequestParam(
+      value = "linesPerPage",
+      defaultValue = "12"
+    ) Integer linesPerPage,
+    @Parameter(
+      in = ParameterIn.QUERY,
+      description = "Sorting criteria in the format: (asc|desc). "
+    ) @RequestParam(value = "direction", defaultValue = "ASC") String direction,
+    @Parameter(
+      in = ParameterIn.QUERY,
+      description = "Sorting criteria in the format: (name|id). "
+    ) @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+  ) {
+    PageRequest pageRequest = PageRequest.of(
+      page,
+      linesPerPage,
+      Direction.valueOf(direction),
+      orderBy
+    );
+
+    Page<CategoryDTO> list = service.findAllPaged(pageRequest);
     return ResponseEntity.ok().body(list);
   }
 
@@ -51,7 +101,7 @@ public class CategoryResource {
         responseCode = "200",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = Category.class)
+          schema = @Schema(implementation = CategoryDTO.class)
         )
       ),
       @ApiResponse(
@@ -60,7 +110,7 @@ public class CategoryResource {
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":404,\"error\":\"Resourcenotfound\",\"message\":\"Category not found\",\"path\":\"/categories/{id}\"}"
+            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Category not found\",\"path\":\"/categories/{id}\"}"
           )
         )
       ),
@@ -129,7 +179,7 @@ public class CategoryResource {
         responseCode = "200",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(implementation = Category.class)
+          schema = @Schema(implementation = CategoryDTO.class)
         )
       ),
       @ApiResponse(
@@ -146,7 +196,6 @@ public class CategoryResource {
   )
   public ResponseEntity<CategoryDTO> update(
     @Parameter(
-      name = "id",
       description = "Category identifier number",
       required = true
     ) @PathVariable Long id,
