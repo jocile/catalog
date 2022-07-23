@@ -131,12 +131,6 @@ public class ProductResource {
     summary = "Insert a new Product name",
     description = "Insert a new Product name and return confirmation response",
     tags = { "Products" },
-    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-      content = @Content(
-        mediaType = "application/json",
-        schema = @Schema(example = "{\"name\":\"Product name\"}")
-      )
-    ),
     responses = {
       @ApiResponse(
         description = "Success insert new Product name",
@@ -195,10 +189,7 @@ public class ProductResource {
     }
   )
   public ResponseEntity<ProductDTO> update(
-    @Parameter(
-      description = "Product identifier number",
-      required = true
-    ) @PathVariable Long id,
+    @Parameter(description = "Product identifier number") @PathVariable Long id,
     @RequestBody ProductDTO dto
   ) {
     dto = service.update(id, dto);
