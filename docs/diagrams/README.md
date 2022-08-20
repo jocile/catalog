@@ -4,6 +4,57 @@
 
 ```mermaid
 classDiagram
+    class Product{
+        <<entity>>
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        - id : Long
+        - name : String
+        - description : String
+        - price : Double
+        - imgUrl : String
+        - date : Instant
+        - categories : Set~Category~        
+    }
+    class ProductDTO{
+        <<entity>>
+        @Getter
+        @Setter
+        @NoArgsConstructor
+        - id : Long
+        - name : String
+        - description : String
+        - price : Double
+        - imgUrl : String
+        - date : Instant
+        - categories : Set~CategoryDTO~
+        ProductDTO(id,name,description,price,imgUrl,date)
+        ProductDTO(entity)
+    }
+    class ProductRepository{
+        <<repository-interface>>
+    }
+    class ProductResource{
+        <<controller>>
+        - service : ProducService
+        findAll() ResponseEntityPage~ProductDTO~
+        findById(id) ResponseEntity~ProductDTO~
+        insert(dto) ResponseEntity~ProductDTO~
+        update(dto) ResponseEntity~ProductDTO~
+        delete(id) ResponseEntity~void~
+    }
+    class ProductService{
+        <<service>>
+        - repository : ProductRepository
+        findAll() List~ProductDTO~
+        findAllPaged(pageable) Page~ProductDTO~
+        findById(id) ResponseEntity~ProductDTO~
+        insert(dto) ResponseEntity~ProductDTO~
+        update(dto) ResponseEntity~ProductDTO~
+        delete(id) ResponseEntity~void~
+    }
     class Category{
         <<entity>>
         @Data
@@ -60,15 +111,32 @@ classDiagram
       - message : String
       - path : String
     }
+    Product *-- Category
+    ProductDTO *-- CategoryDTO
+    ProductDTO *-- Product
+    ProductDTO *-- Category
     CategoryDTO *-- Category
+    ProductService *-- Category
+    ProductService *-- Product
+    ProductService *-- CategoryDTO
+    ProductService *-- ProductDTO
+    ProductService *-- CategoryRepository
+    ProductService *-- ProductRepository
+    ProductService *-- DatabaseException
+    ProductService *-- ResourceNotFoundException
+    ProductResource *-- ProductDTO
+    ProductResource *-- ProductService
     CategoryService *-- Category
     CategoryService *-- CategoryDTO
-    CategoryService *-- CategoryRepository    
+    CategoryService *-- CategoryRepository
+    CategoryService *-- DatabaseException
+    CategoryService *-- ResourceNotFoundException
     CategoryResource *-- CategoryDTO
     CategoryResource *-- CategoryService
     CategoryResource *-- EntityNotFoundException
     CategoryResource *-- StandardError
   ```
+
 ## ER diagram
 
 ```mermaid
@@ -99,12 +167,12 @@ erDiagram
     }
 ```
 
-| Value (left) |	Value (right) |	Meaning |
-| :------: | :------: | --- |
-| \|o | o\| | 	Zero or one |
-| \|\|| \|\||	Exactly one |
-| }o	| o{	|  Zero or more (no upper limit) |
-| }\|	| \|{ |	One or more (no upper limit) |
+| Value (left) | Value (right) | Meaning                       |
+| :----------: | :-----------: | ----------------------------- |
+|     \|o      |      o\|      | Zero or one                   |
+|     \|\|     |     \|\|      | Exactly one                   |
+|      }o      |      o{       | Zero or more (no upper limit) |
+|     }\|      |      \|{      | One or more (no upper limit)  |
 
 ![Entities diagram](EntitiesER.drawio.svg)
 
