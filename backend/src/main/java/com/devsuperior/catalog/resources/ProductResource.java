@@ -4,15 +4,14 @@ import com.devsuperior.catalog.dto.ProductDTO;
 import com.devsuperior.catalog.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.net.URI;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -58,34 +56,9 @@ public class ProductResource {
     }
   )
   public ResponseEntity<Page<ProductDTO>> findAll(
-    @Parameter(
-      in = ParameterIn.QUERY,
-      description = "Zero-based page index (0..N)"
-    ) @RequestParam(value = "page", defaultValue = "0") Integer page,
-    @Parameter(
-      in = ParameterIn.QUERY,
-      description = "The size of the page to be returned"
-    ) @RequestParam(
-      value = "linesPerPage",
-      defaultValue = "12"
-    ) Integer linesPerPage,
-    @Parameter(
-      in = ParameterIn.QUERY,
-      description = "Sorting criteria in the format: (asc|desc). "
-    ) @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-    @Parameter(
-      in = ParameterIn.QUERY,
-      description = "Sorting criteria in the format: (name|id|price|date). "
-    ) @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+    @ParameterObject Pageable pageable
   ) {
-    PageRequest pageRequest = PageRequest.of(
-      page,
-      linesPerPage,
-      Direction.valueOf(direction),
-      orderBy
-    );
-
-    Page<ProductDTO> list = service.findAllPaged(pageRequest);
+    Page<ProductDTO> list = service.findAllPaged(pageable);
     return ResponseEntity.ok().body(list);
   }
 
