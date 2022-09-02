@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,8 +39,13 @@ public class User implements Serializable {
   private String email;
   private String password;
 
+  /**
+   * fetch = FetchType.EAGER
+   * When searching the users, it also loads the Rule profiles
+   * from the database
+   */
   @Setter(value = AccessLevel.NONE)
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
     name = "tb_user_role",
     joinColumns = @JoinColumn(name = "user_id"),

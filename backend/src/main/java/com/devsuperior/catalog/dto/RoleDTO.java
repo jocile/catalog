@@ -1,5 +1,6 @@
 package com.devsuperior.catalog.dto;
 
+import com.devsuperior.catalog.entities.Role;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +16,9 @@ public class RoleDTO implements Serializable {
 
   private Long id;
   private String authority;
+
+  public RoleDTO(Role role) {
+    id = role.getId();
+    authority = role.getAuthority();
+  }
 }
