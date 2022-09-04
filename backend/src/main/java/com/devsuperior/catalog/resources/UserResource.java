@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.net.URI;
+import javax.validation.Valid;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -126,7 +127,7 @@ public class UserResource {
       ),
     }
   )
-  public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto) {
+  public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
     UserDTO newDto = service.insert(dto);
     URI uri = ServletUriComponentsBuilder
       .fromCurrentRequest()
@@ -164,7 +165,7 @@ public class UserResource {
   )
   public ResponseEntity<UserDTO> update(
     @Parameter(description = "User identifier number") @PathVariable Long id,
-    @RequestBody UserDTO dto
+    @Valid @RequestBody UserDTO dto
   ) {
     dto = service.update(id, dto);
     return ResponseEntity.ok().body(dto);

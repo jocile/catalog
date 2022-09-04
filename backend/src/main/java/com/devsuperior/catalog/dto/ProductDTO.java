@@ -7,6 +7,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +22,20 @@ public class ProductDTO implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private Long id;
+
+  @Size(min = 3, max = 60, message = "Must be between 3 and 60 characters")
+  @NotBlank(message = "Required field")
   private String name;
+
+  @NotBlank(message = "Required field")
   private String description;
+
+  @Positive(message = "The price must be a positive value")
   private Double price;
+
   private String imgUrl;
+
+  @PastOrPresent(message = "The date cannot be future")
   private Instant date;
 
   private List<CategoryDTO> categories = new ArrayList<>();

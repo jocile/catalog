@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.net.URI;
+import javax.validation.Valid;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -125,7 +126,7 @@ public class ProductResource {
       ),
     }
   )
-  public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+  public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
     dto = service.insert(dto);
     URI uri = ServletUriComponentsBuilder
       .fromCurrentRequest()
@@ -163,7 +164,7 @@ public class ProductResource {
   )
   public ResponseEntity<ProductDTO> update(
     @Parameter(description = "Product identifier number") @PathVariable Long id,
-    @RequestBody ProductDTO dto
+    @Valid @RequestBody ProductDTO dto
   ) {
     dto = service.update(id, dto);
     return ResponseEntity.ok().body(dto);
