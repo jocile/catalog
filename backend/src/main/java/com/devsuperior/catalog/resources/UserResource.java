@@ -2,6 +2,7 @@ package com.devsuperior.catalog.resources;
 
 import com.devsuperior.catalog.dto.UserDTO;
 import com.devsuperior.catalog.dto.UserInsertDTO;
+import com.devsuperior.catalog.resources.Exceptions.ValidationError;
 import com.devsuperior.catalog.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -116,13 +117,11 @@ public class UserResource {
         )
       ),
       @ApiResponse(
-        description = "User name error",
-        responseCode = "400",
+        description = "User field error",
+        responseCode = "422",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/users\"}"
-          )
+          schema = @Schema(implementation = ValidationError.class)
         )
       ),
     }
