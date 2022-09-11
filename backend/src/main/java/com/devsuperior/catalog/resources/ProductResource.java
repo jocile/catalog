@@ -1,6 +1,7 @@
 package com.devsuperior.catalog.resources;
 
 import com.devsuperior.catalog.dto.ProductDTO;
+import com.devsuperior.catalog.resources.Exceptions.ValidationError;
 import com.devsuperior.catalog.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -50,7 +51,7 @@ public class ProductResource {
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/Products\"}"
+            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/products\"}"
           )
         )
       ),
@@ -84,7 +85,7 @@ public class ProductResource {
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Product not found\",\"path\":\"/Products/{id}\"}"
+            example = "{\"timestamp\":\"2022-07-18T18:06:27.690905796Z\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Product not found\",\"path\":\"/products/{id}\"}"
           )
         )
       ),
@@ -119,9 +120,7 @@ public class ProductResource {
         responseCode = "422",
         content = @Content(
           mediaType = "application/json",
-          schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":422,\"error\":\"Validation exception\",\"message\":\"Validation failed for argument\",\"path\":\"/Products\"}"
-          )
+          schema = @Schema(implementation = ValidationError.class)
         )
       ),
     }
@@ -156,7 +155,7 @@ public class ProductResource {
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Id not found {id}\",\"path\":\"/Products/{id}\"}"
+            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Id not found {id}\",\"path\":\"/products/{id}\"}"
           )
         )
       ),
@@ -186,7 +185,7 @@ public class ProductResource {
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Id not found {id}\",\"path\":\"/Products/{id}\"}"
+            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":404,\"error\":\"Resource not found\",\"message\":\"Id not found {id}\",\"path\":\"/products/{id}\"}"
           )
         )
       ),
