@@ -116,11 +116,11 @@ public class ProductResource {
       ),
       @ApiResponse(
         description = "Product name error",
-        responseCode = "400",
+        responseCode = "422",
         content = @Content(
           mediaType = "application/json",
           schema = @Schema(
-            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/Products\"}"
+            example = "{\"timestamp\":\"2022-07-18T18:06:27\",\"status\":422,\"error\":\"Validation exception\",\"message\":\"Validation failed for argument\",\"path\":\"/Products\"}"
           )
         )
       ),
