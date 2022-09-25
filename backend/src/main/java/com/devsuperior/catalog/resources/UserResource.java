@@ -2,6 +2,7 @@ package com.devsuperior.catalog.resources;
 
 import com.devsuperior.catalog.dto.UserDTO;
 import com.devsuperior.catalog.dto.UserInsertDTO;
+import com.devsuperior.catalog.dto.UserUpdateDTO;
 import com.devsuperior.catalog.resources.Exceptions.ValidationError;
 import com.devsuperior.catalog.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -160,14 +161,22 @@ public class UserResource {
           )
         )
       ),
+      @ApiResponse(
+        description = "User field error",
+        responseCode = "422",
+        content = @Content(
+          mediaType = "application/json",
+          schema = @Schema(implementation = ValidationError.class)
+        )
+      ),
     }
   )
   public ResponseEntity<UserDTO> update(
     @Parameter(description = "User identifier number") @PathVariable Long id,
-    @Valid @RequestBody UserDTO dto
+    @Valid @RequestBody UserUpdateDTO dto
   ) {
-    dto = service.update(id, dto);
-    return ResponseEntity.ok().body(dto);
+    UserDTO newDto = service.update(id, dto);
+    return ResponseEntity.ok().body(newDto);
   }
 
   @DeleteMapping(value = "/{id}")
