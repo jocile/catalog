@@ -1,5 +1,8 @@
 package com.devsuperior.catalog.config;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +22,22 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+/**
+ * Security Configuration that receives a request for a resource with a token to authorize access to the resource
+ *
+ * SecuritySchemeType = Swagger configuration HTTP authentication schemes (they use the Authorization header)
+ *   Basic = user login, password
+ *   Bearer = OAuth2AccessToken
+ *   Registry = other HTTP schemes
+ */
 @Configuration
 @EnableResourceServer
+@SecurityScheme(
+  name = "catalog",
+  scheme = "bearer",
+  type = SecuritySchemeType.HTTP,
+  in = SecuritySchemeIn.HEADER
+)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
   @Value("${cors.origins}")
   private String corsOrigins;
@@ -31,14 +48,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
   @Autowired
   private JwtTokenStore tokenStore;
 
-  private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
+  private static final String[] PUBLIC = {
+    "/oauth/token",
+    "/h2-console/**",
+    "/swagger-ui/**",
+    "/v3/api-docs/**",
+  };
 
   private static final String[] OPERATOR_OR_ADMIN = {
     "/products/**",
     "/categories/**",
   };
 
-  private static final String[] ADMIN = { "users" };
+  private static final String[] ADMIN = { "/users/**" };
 
   @Override
   public void configure(ResourceServerSecurityConfigurer resources)
